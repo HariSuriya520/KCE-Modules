@@ -1,0 +1,16 @@
+{
+  "name": "kceian",
+  "version": "1.0.0",
+  "description": "testing",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon -e js,mustache app.js"
+  },
+  "author": "dreamwarrior",
+  "license": "ISC",
+  "dependencies": {
+    "convert-excel-to-json": "^1.7.0",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.7"
+  }
+}
