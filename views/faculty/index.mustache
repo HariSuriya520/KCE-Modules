@@ -11,10 +11,13 @@
   <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top navbar-light">
-      <a class="navbar-brand" href="#"><img class="img-logo" src="/images/logo0.png">&nbsp;&nbsp;Portal</a>
+      <a class="navbar-brand" href="/Mindex"><img class="img-logo" src="/images/logo0.png"></a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
     
-      <!-- <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
           </li>
@@ -24,7 +27,7 @@
           <li class="nav-item">
             <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
           </li>
-        </ul>
+        </ul> -->
         <ul class="navbar-nav ml-auto" style="padding-right: 5px;">
           <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -32,9 +35,9 @@
                 <img class="img-profile d-none d-lg-inline rounded-circle" class="" src="/images/Profile.svg">
               </a>
               <div class="dropdown-menu text-center animate animation" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item" href="#">Notifications</a>
+                <a class="dropdown-item" href="/tutor/profile">Profile</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="#">Logout</a>
+                <a class="dropdown-item" href="/">Logout</a>
               </div>
             </li>
         </ul>
@@ -42,7 +45,7 @@
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-primary my-2 my-sm-0" type="submit">Search</button>
         </form>
-      </div> -->
+      </div>
     </nav>
     <!-- Navbar End -->
     
@@ -50,47 +53,57 @@
     <div class="container cardsContainer">
       <div class="row row--center row--margin">
         <div class="col-lg-4 col-md-6 col-sm-12 cardsGrid">
-          <a href="/admin" >
+          <a href="/faculty/attendance">
             <div class="cardsGrid-Wrap">
-              <h1 class="cardsGrid-Title">Admin</h1>
-              <div class="cardsGrid-Img"><img src="/images/COEModule.svg"></div>
-              <p class="cardsGrid-Content">Module</p>
+              <h1 class="cardsGrid-Title">Attendance</h1>
+              <div class="cardsGrid-Img"><img src="/images/Attendance.svg"></div>
+              <p class="cardsGrid-Content">Updated 2 days ago</p>
+            </div>
+          </a>
+        </div>
+        
+        <div class="col-lg-4 col-md-6 col-sm-12 cardsGrid">
+          <a href="/faculty/result">
+            <div class="cardsGrid-Wrap">
+              <h1 class="cardsGrid-Title">Results</h1>
+              <div class="cardsGrid-Img"><img src="/images/Results.svg"></div>
+              <p class="cardsGrid-Content">Updated 106 days ago</p>
             </div>
           </a>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12 cardsGrid">
-          <a href="/coe" >
+          <a href="/faculty/tt" >
             <div class="cardsGrid-Wrap">
-              <h1 class="cardsGrid-Title">COE</h1>
-              <div class="cardsGrid-Img"><img src="/images/COEModule.svg"></div>
-              <p class="cardsGrid-Content">Module</p>
+              <h1 class="cardsGrid-Title">Class Time-Table</h1>
+              <div class="cardsGrid-Img"><img src="/images/ClassTable.svg"></div>
+              <p class="cardsGrid-Content">Updated 35 days ago</p>
             </div>
           </a>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12 cardsGrid">
-          <a href="/faculty">
+          <a href="/faculty/ett" >
             <div class="cardsGrid-Wrap">
-              <h1 class="cardsGrid-Title">Faculty</h1>
-              <div class="cardsGrid-Img"><img src="/images/FacultyModule.svg"></div>
-              <p class="cardsGrid-Content">Module</p>
+              <h1 class="cardsGrid-Title">Exam Time-Table</h1>
+              <div class="cardsGrid-Img"><img src="/images/ExamTable.svg"></div>
+              <p class="cardsGrid-Content">Updated 24 days ago</p>
             </div>
           </a>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12 cardsGrid">
-          <a href="/tutor">
+          <a href="/faculty/circular" >
             <div class="cardsGrid-Wrap">
-              <h1 class="cardsGrid-Title">HOD / Tutor</h1>
-              <div class="cardsGrid-Img"><img src="/images/DepartmentModule.svg"></div>
-              <p class="cardsGrid-Content">Module</p>
+              <h1 class="cardsGrid-Title">Circulars</h1>
+              <div class="cardsGrid-Img"><img src="/images/Circular.svg"></div>
+              <p class="cardsGrid-Content">Updated 12 days ago</p>
             </div>
           </a>
         </div>
         <div class="col-lg-4 col-md-6 col-sm-12 cardsGrid">
-          <a href="/principal">
+          <a href="/faculty/notification">
             <div class="cardsGrid-Wrap">
-              <h1 class="cardsGrid-Title">Placement / Principal</h1>
-              <div class="cardsGrid-Img"><img src="/images/PrincipalModule.svg"></div>
-              <p class="cardsGrid-Content">Module</p>
+              <h1 class="cardsGrid-Title">Notifications</h1>
+              <div class="cardsGrid-Img"><img src="/images/Notifications.svg"></div>
+              <p class="cardsGrid-Content">New Update</p>
             </div>
           </a>
         </div>
@@ -105,7 +118,7 @@
       body {
           height: 100%;
           width: 100%;
-          background-image: url(/images/kcebg.jpg);
+          background-image: url(kcebg.jpg);
           background-repeat: no-repeat;
           background-size: cover;
           background-attachment: fixed;
