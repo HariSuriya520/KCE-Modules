@@ -11,6 +11,7 @@ app.use('/tutor',express.static(__dirname+'/views/tutor'))
 app.use('/principal',express.static(__dirname+"/views/principal"))
 app.use('/faculty',express.static(__dirname+"/views/faculty"))
 app.use('/coe',express.static(__dirname+"/views/coe"))
+app.use('/css',express.static(__dirname+'/css'))
 
 app.get('/',(req,res)=>{
     res.render('index.mustache')
@@ -66,6 +67,42 @@ app.get('/coe/circular',(req,res)=>{
 // coe notification page
 app.get('/coe/notification',(req,res)=>{
     res.render('coe/notification.mustache')
+})
+
+// principal
+// principal announcement
+app.get('/principal/announcement',(req,res)=>{
+    res.render('principal/announcement.mustache')
+})
+
+// principal attendance
+app.get('/principal/attendance',(req,res)=>{
+    res.render('principal/attendance.mustache')
+})
+
+// principal circulars
+app.get('/principal/circulars',(req,res)=>{
+    res.render('principal/circulars.mustache')
+})
+
+// principal exam
+app.get('/principal/exam',(req,res)=>{
+    res.render('principal/exam.mustache')
+})
+
+// principal notification
+app.get('/principal/notification',(req,res)=>{
+    res.render('principal/notification.mustache')
+})
+
+// principal profile
+app.get('/principal/profile',(req,res)=>{
+    res.render('principal/profile.mustache')
+})
+
+// principal results
+app.get('/principal/results',(req,res)=>{
+    res.render('principal/results.mustache')
 })
 
 
