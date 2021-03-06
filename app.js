@@ -248,16 +248,16 @@ app.post('/tutor/addstu',(req,res)=>{
     email = req.body.stuemail
     pass = req.body.stupass
 
-    var stuRef = firebase.database().ref('studetails/'+dept+'/'+year+'/');
+    var stuRef = firebase.database().ref('studetails/');
+    var login = firebase.database().ref('login/');
 
-    stuRef.push().set({
+    stuRef.child(rollno).set({
 		stuname: name,
 		sturoll: rollno,
 		studept: dept,
 		stuyear: year,
         stuphn : phn,
-        stuemail : email,
-        stupass : pass
+        stuemail : email
 	},function(error){
 		if(!error){
 			res.render('tutor/addstu',{msg:'Student Details Updated Successfully.'})
@@ -267,6 +267,9 @@ app.post('/tutor/addstu',(req,res)=>{
 		}
 	})
     
+    login.child(rollno).set({
+        stupass: pass
+    })
 
 })
 
