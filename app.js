@@ -1,6 +1,15 @@
 const express = require('express')
 const app = express()
+const firebase = require('firebase-admin')
+const service = require('./serviceAccountKey.json')
 const mustacheExpress = require('mustache-express')
+const bodyParser = require('body-parser');
+const { Context } = require('mustache')
+
+firebase.initializeApp({
+	credential : firebase.credential.cert(service),
+    databaseURL: "https://kceian-3bf3a-default-rtdb.firebaseio.com"
+})
 
 app.engine('mustache',mustacheExpress())
 app.set('view engine','mustache')
@@ -13,9 +22,46 @@ app.use('/faculty',express.static(__dirname+"/views/faculty"))
 app.use('/coe',express.static(__dirname+"/views/coe"))
 app.use('/css',express.static(__dirname+'/css'))
 
+app.use(bodyParser.urlencoded({extended: false}));
+
 app.get('/',(req,res)=>{
     res.render('index.mustache')
 })
+
+var announceRef = firebase.database().ref('annoucement');
+
+function announce(ann,name,res){
+	var month=['jan','feb','mar','apr','may','jun','jul','aug','sep','oct','nov','dec']
+	var d = new Date();
+	var fullDate = d.getDate()+'-'+month[d.getMonth()]+'-'+d.getFullYear() 
+	var fullTime="";
+	
+	if(0<=d.getHours() && d.getHours()<=12){
+		if(d.getHours()==0){
+	    	fullTime=d.getHours()+12+":"+d.getMinutes()+" AM";
+	    }
+	    else{
+	    	fullTime=d.getHours()+":"+d.getMinutes()+" AM";
+	    }
+	}
+	else{
+		fullTime=d.getHours()-12+":"+d.getMinutes()+" PM";
+	}
+
+	announceRef.push().set({
+		annoucement:ann,
+		date: fullDate,
+		time: fullTime,
+		user: name
+	},function(error){
+		if(!error){
+			res.render('tutor/announcement',{msg:'Annoucement Updated Successfully.'})
+		}
+		else{
+			console.log("Check your connection, Data insert is failed");
+		}
+	})
+}
 
 // Index pages
 // Main index page 
@@ -149,6 +195,14 @@ app.get('/tutor/announcement',(req,res)=>{
     res.render('tutor/announcement.mustache')
 })
 
+app.post('/tutor/announcement',(req,res)=>{
+    var ann = req.body.ann;
+    var name = req.body.nam_ann;
+    console.log(ann)
+    console.log(name)
+    announce(ann,name,res)
+})
+
 // tutor time table page
 app.get('/tutor/tt',(req,res)=>{
     res.render('tutor/timetable.mustache')
@@ -179,7 +233,44 @@ app.get('/tutor/circular',(req,res)=>{
     res.render('tutor/circular.mustache')
 })
 
+// tutor add student page
+app.get('/tutor/addstu',(req,res)=>{
+    res.render('tutor/addstu.mustache')
+})
+
+app.post('/tutor/addstu',(req,res)=>{
+    var name,rollno,dept,year,phn,email,pass;
+    name = req.body.stuname
+    rollno = req.body.sturoll
+    dept = req.body.dept
+    year = req.body.year
+    phn = req.body.stuphn
+    email = req.body.stuemail
+    pass = req.body.stupass
+
+    var stuRef = firebase.database().ref('studetails/'+dept+'/'+year+'/');
+
+    stuRef.push().set({
+		stuname: name,
+		sturoll: rollno,
+		studept: dept,
+		stuyear: year,
+        stuphn : phn,
+        stuemail : email,
+        stupass : pass
+	},function(error){
+		if(!error){
+			res.render('tutor/addstu',{msg:'Student Details Updated Successfully.'})
+		}
+		else{
+			console.log("Check your connection, Data insert is failed");
+		}
+	})
+    
+
+})
 
 app.listen(1234,()=>{
     console.log("server is running on port 1234")
 })
+
