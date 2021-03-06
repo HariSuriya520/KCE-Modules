@@ -183,7 +183,6 @@ app.get('/faculty/tt',(req,res)=>{
     res.render('faculty/timetable.mustache')
 })
 
-
 // Tutor Module
 // profile page
 app.get('/tutor/profile',(req,res)=>{
@@ -198,8 +197,6 @@ app.get('/tutor/announcement',(req,res)=>{
 app.post('/tutor/announcement',(req,res)=>{
     var ann = req.body.ann;
     var name = req.body.nam_ann;
-    console.log(ann)
-    console.log(name)
     announce(ann,name,res)
 })
 
@@ -210,7 +207,13 @@ app.get('/tutor/tt',(req,res)=>{
 
 // tutor notification page
 app.get('/tutor/notification',(req,res)=>{
-    res.render('tutor/notification.mustache')
+    var greets = {
+        "greet":[
+            {"murali":"hello"},
+            {"murali": "hi"}
+        ]
+    }
+    res.render('tutor/notification.mustache',greets)
 })
 
 // tutor attendance page
@@ -232,6 +235,66 @@ app.get('/tutor/result',(req,res)=>{
 app.get('/tutor/circular',(req,res)=>{
     res.render('tutor/circular.mustache')
 })
+
+// tutor od page
+var dataArr = []
+var count = 0;
+var onDuty = firebase.database().ref('onduty/');
+onDuty.on("value",(snapshot)=>{
+    dataArr=[]
+    var data; 
+    snapshot.forEach((ss)=>{
+        data=ss.val()
+        genData(ss.key,data)
+    })
+    
+})
+
+function genData(k,gd){
+ //   console.log(gd)
+    count++
+    if(!gd.tutorApproved){
+        var childData = {}
+        var d = gd.date
+        var fd = gd.fromDate
+        var td = gd.toDate
+        var r = gd.reason
+        childData.key = k
+        childData.id=count
+        childData.date=d
+        childData.fromDate = fd
+        childData.toDate = td
+        childData.reason = r
+        dataArr.push(childData)
+    }
+}
+
+app.get('/tutor/od',(req,res)=>{
+    var data = {}
+    data.oddata = dataArr
+    res.render('tutor/od.mustache',data)  
+    
+})
+
+app.post('/tutor/od',(req,res)=>{
+    var request = req.body.msg;
+    var key = req.body.key
+    odmodify = firebase.database().ref('onduty/'+key);
+    if(request == "accept"){
+        odmodify.update({
+            'tutorApproved':true,
+            'tutorApprovedDate': today()
+        })
+    }
+    else if(request=="deny"){
+        odmodify.remove()
+    }
+})
+
+function today(){
+    var d = new Date()
+    return d.getDate()+"-"+d.getMonth()+"-"+d.getFullYear()
+}
 
 // tutor add student page
 app.get('/tutor/addstu',(req,res)=>{

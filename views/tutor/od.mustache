@@ -1,0 +1,67 @@
+
+<html>
+<style>
+    table{
+        width:100%;
+    }
+    table,tr,th{
+        border: 1px solid black;
+        border-collapse : collapse;
+    }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<body>
+
+<table>
+    <tr>
+        <th>Date</th>
+        <th>From Date</th>
+        <th>To Date</th>
+        <th>Reason</th>
+        <th>Action</th>
+    </tr>
+    {{#oddata}}
+    <tr>
+        <th>{{date}}</th>
+        <th>{{fromDate}}</th>
+        <th>{{toDate}}</th>
+        <th>{{reason}}</th>
+        <th><div id="{{id}}" style="display:none">{{key}}</div><button id="accept{{id}}" name="accept{{id}}"  onclick="accept('{{id}}')">Accept</button> <button id="deny{{id}}" name="deny{{id}}" onclick="deny('{{id}}')">deny</button></th>
+    </tr>
+    {{/oddata}}
+    
+</table>
+
+<script>
+    setInterval(function(){ location.reload() }, 5000);
+    
+
+    function accept(btnid){
+        
+        var k1 = document.getElementById(btnid).innerHTML;
+        var keyObj = {
+                msg: "accept",
+                key: k1
+            }
+        
+        $.post("/tutor/od",keyObj,function(data,status){
+            
+        });
+         
+    }
+
+    function deny(btnid){
+        var k1 = document.getElementById(btnid).innerHTML;
+        var keyObj = {
+                msg: "deny",
+                key: k1
+            }
+        
+        $.post("/tutor/od",keyObj,function(data,status){
+            
+        });
+    }
+    
+</script>
+</body>
+</html>
