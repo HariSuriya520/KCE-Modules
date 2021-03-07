@@ -51,14 +51,17 @@
 
     <!-- Announcement -->
     <div class="Announcement">
-        <h2 class="text-center circular_h">Circulars</h2><br>
-        <label for="ann">Enter Your Message Here:</label>
-        <textarea id="ann" rows="10" cols="187"></textarea>
-        <br>
-        <label for="nam-ann">Enter your name:</label><br>
-        <textarea id="nam_ann" >HOD</textarea>
-        <br>
-        <button class="Announcement_Button btn btn-outline-primary" onclick="send()">Submit</button>
+        <form action='/tutor/announcement' method="POST">
+            <h2 class="text-center circular_h">Circulars</h2><br>
+            <label for="ann">Enter Your Message Here:</label>
+            <textarea id="ann" name="ann" rows="10" cols="187"></textarea>
+            <br>
+            <label for="nam-ann">Enter your name:</label><br>
+            <textarea id="nam_ann" name="nam_ann" >HOD</textarea>
+            <br>
+            <p style="font-weight: bold"> {{msg}}</p>
+            <button class="Announcement_Button btn btn-outline-primary" type="submit">Submit</button>
+        </form>
     </div>
     
     <!-- Announcement End -->
@@ -211,17 +214,6 @@
                 }
             });
         });
-    </script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-analytics.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.2/firebase-database.js"></script>
-    <script src="Firebase.js"></script>
-    <script type="text/javascript">
-        function send(){
-            var ann = document.getElementById('ann').value
-            var name = document.getElementById('nam_ann').value
-            announce(ann,name);
-        }
     </script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   </body>

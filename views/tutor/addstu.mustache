@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Students</title>
+</head>
+<body>
+    <form action="/tutor/addstu" method='POST'>
+        <label>Student name : <input type="text" placeholder="name" id="stuname" name="stuname"></label><br>
+        <label>Student Roll no : <input type="text" placeholder="Roll no" id='sturoll' name='sturoll'></label><br>
+        Student Department: <select name='dept' id='dept'>
+            <option value="auto">auto</option>
+            <option value="mech">mech</option>
+            <option value="civil">civil</option>
+            <option value="cse">cse</option>
+            <option value="it">it</option>
+            <option value="eee">eee</option>
+            <option value="ece">ece</option>
+        </select><br>
+        year : <select name='year' id='year'>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            </select><br>
+        <label>Student phone number : <input type="text" placeholder="phone number" id="stuphn" name="stuphn"></label>
+        <br>
+        <label>Student Email : <input type="text" placeholder="Email" id="stuemail" name="stuemail"></label>
+        <br>
+        <label>password : <input type="text" placeholder="password" id="stupass" name="stupass"></label>
+        <br>
+        <br>
+        <button type="submit">Submit</button>
+    </form>
+    <p>{{msg}}</p>
+</body>
+</html>
