@@ -226,6 +226,22 @@ app.get('/tutor/ett',(req,res)=>{
     res.render('tutor/examtt.mustache')
 })
 
+app.post('/tutor/ett',(req,res)=>{
+    var year = req.body.year
+    var datajs = JSON.stringify(req.body)
+    var ett = firebase.database().ref('ett')
+    var data=  JSON.parse(datajs)
+    ett.child(year).set(data)
+    
+    if(req.body==null){
+        res.send('request failed \n')
+    }
+    else{
+        res.send("Successfully updated.")
+    }
+    
+})
+
 // tutor result page
 app.get('/tutor/result',(req,res)=>{
     res.render('tutor/result.mustache')
@@ -290,6 +306,7 @@ app.post('/tutor/od',(req,res)=>{
         odmodify.remove()
     }
 })
+
 
 function today(){
     var d = new Date()
