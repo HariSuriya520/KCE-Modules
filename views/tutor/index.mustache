@@ -11,7 +11,7 @@
   <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg fixed-top navbar-light">
-      <a class="navbar-brand" href="/Mindex" style='color:white'><img class="img-logo" src="/images/logo0.png">&nbsp;&nbsp; Portal</a>
+      <a class="navbar-brand" href="/tutor" style='color:white'><img class="img-logo" src="/images/logo0.png">&nbsp;&nbsp; Portal</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -42,6 +42,15 @@
     <!-- Grid Cards -->
     <div class="container cardsContainer">
       <div class="row row--center row--margin">
+        <div class="col-lg-4 col-md-6 col-sm-12 cardsGrid">
+            <a href="/tutor/leaveletter">
+              <div class="cardsGrid-Wrap">
+                    <h1 class="cardsGrid-Title">Leave Letter</h1>
+                    <div class="cardsGrid-Img"><img src="/images/Student Database.svg"></div>
+                    <p class="cardsGrid-Content">Updated 241 days ago</p>
+              </div>
+            </a>
+        </div>
         <div class="col-lg-4 col-md-6 col-sm-12 cardsGrid">
             <a href="/tutor/od">
               <div class="cardsGrid-Wrap">
@@ -350,6 +359,14 @@
       /*End*/
 
     </style>
+    <script>
+
+      var k = localStorage.getItem('mhil')
+      if(k==null || k=="" || k=="null"){
+        location.href = '/'
+      }
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <!-- Styles End -->
   </body>
 </html>

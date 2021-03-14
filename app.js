@@ -21,7 +21,9 @@ app.use('/principal',express.static(__dirname+"/views/principal"))
 app.use('/faculty',express.static(__dirname+"/views/faculty"))
 app.use('/coe',express.static(__dirname+"/views/coe"))
 app.use('/css',express.static(__dirname+'/css'))
-
+app.use('/sheetjs',express.static(__dirname+'/sheetjs'))
+app.use('/admin',express.static(__dirname+'/views/admin/'))
+app.use('/ca/createfaculty',express.static(__dirname+'/views/admin/'))
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.get('/',(req,res)=>{
@@ -67,6 +69,78 @@ function announce(ann,name,res){
 // Main index page 
 app.get('/Mindex',(req,res)=>{
     res.render('Mindex.mustache')
+})
+
+// create account
+app.get('/ca',(req,res)=>{
+    res.render('admin/CreateAccount.mustache')
+})
+
+// create faculty account
+app.get('/ca/faculty',(req,res)=>{
+    res.render('admin/CreateAccountF.mustache')
+})
+
+// add faculty to database
+app.post('/ca/create',(req,res)=>{
+    var name,id,dept,sec,batch,subjects,email,pass;
+    name = req.body.name
+    id = req.body.id
+    dept = req.body.dept
+    sec = req.body.sec
+    batch = req.body.batch
+    subjects = req.body.subjects
+    email = req.body.email
+    pass = req.body.pass
+
+    var facRef = firebase.database().ref('fdetails/');
+    var login = firebase.database().ref('flogin/');
+
+    facRef.child(id).set({
+		fname: name,
+        fid :id,
+		fdept: dept,
+		fsec: sec,
+		fbatch: batch,
+        fsub : subjects,
+        femail : email
+	},function(error){
+		if(!error){
+			res.render('admin/CreateAccountF.mustache',{msg:'Faculty Details Updated Successfully.'})
+		}
+		else{
+			console.log("Check your connection, Data insert is failed");
+		}
+	})
+    
+    login.child(id).set({
+        fpass: pass
+    })
+})
+
+function encptdate(){
+    var date = new Date();
+    return date.getDate()+date.getMonth()+date.getFullYear()
+}
+
+app.post('/check',(req,res)=>{
+    var id = req.body.uid
+    var pass = req.body.upass
+    var fref = firebase.database().ref('flogin/'+id)
+    fref.on("value",function(snapshot){
+        var p = snapshot.val()
+        if(p==null){
+            res.send('failed')
+        }else{
+            if(p.fpass==pass){
+                res.send('done')
+            }
+            else{
+                res.send('failed')
+            }
+        }
+        
+    })
 })
 
 // principal index page
@@ -238,6 +312,13 @@ app.get('/tutor/attendance',(req,res)=>{
     res.render('tutor/attendance.mustache')
 })
 
+app.post('/tutor/addattendance',(req,res)=>{
+
+    var data = req.body
+    console.log(data)
+    res.send('ok')
+})
+
 // tutor exam time table page
 app.get('/tutor/ett',(req,res)=>{
     res.render('tutor/examtt.mustache')
@@ -327,6 +408,50 @@ function today(){
     return d.getDate()+"-"+d.getMonth()+"-"+d.getFullYear()
 }
 
+
+var leaveDataArr = []
+var lvcount = 0;
+var ll = firebase.database().ref('ll/');
+ll.on("value",(snapshot)=>{
+    leaveDataArr=[]
+    var data; 
+    snapshot.forEach((ss)=>{
+        data=ss.val()
+        genLeaveData(ss.key,data)
+    })  
+})
+
+function genLeaveData(k,gd){
+ //   console.log(gd)
+    lvcount++
+    if(!gd.tutorApproved){
+        var childData = {}
+        var d = gd.date
+        var rn = gd.rollno
+        var fd = gd.fromDate
+        var td = gd.toDate
+        var r = gd.reason
+        childData.key = k
+        childData.rollno = rn
+        childData.id=lvcount
+        childData.date=d
+        childData.fromDate = fd
+        childData.toDate = td
+        childData.reason = r
+        leaveDataArr.push(childData)
+    }
+}
+
+app.get('/tutor/leaveletter',(req,res)=>{
+    var data = {}
+    data.lldata = leaveDataArr
+    res.render('tutor/ll.mustache',data)  
+})
+
+app.post('/tutor/ll',(req,res)=>{
+    res.send('ok')
+})
+
 // tutor add student page
 app.get('/tutor/addstu',(req,res)=>{
     res.render('tutor/addstu.mustache')
@@ -375,19 +500,20 @@ app.get('/tutor/studata/',(req,res)=>{
     var stuRef = firebase.database().ref('studetails/');
     stuRef.on("value",(snapshot)=>{
         var data=""
+        studataarr = []
         snapshot.forEach((ss)=>{
             data=ss.val()
             getStudata(data)
         })
+        
     })
     studataArr.data = studataarr
-   // res.send(studataArr)
     res.render('tutor/studata.mustache',studataArr)
 })
 
 function getStudata(data){
     var d = {}
-    studataarr = []
+  
     d.roll= data.sturoll
     d.name =  data.stuname
     d.phn = data.stuphn

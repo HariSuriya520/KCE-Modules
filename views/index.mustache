@@ -18,13 +18,13 @@
             <h2 class="title">Faculty login</h2>
             <div class="input-field">
               <i class="fas fa-user"></i>
-              <input type="text" placeholder="User ID" />
+              <input type="text" id="uid" placeholder="User ID" />
             </div>
             <div class="input-field">
               <i class="fas fa-lock"></i>
-              <input type="password" placeholder="Password" />
+              <input type="password"  id="upass" placeholder="Password" />
             </div>
-            <a href="/Mindex"><button type="button" class="btn btn-primary">Login</button></a>
+            <button type="button" class="btn btn-primary" onclick="login()">Login</button>
           </form>
         </div>
       </div>
@@ -477,20 +477,39 @@
     <!-- Script -->
 
     <script>
-        const sign_in_btn = document.querySelector("#sign-in-btn");
-        const sign_up_btn = document.querySelector("#sign-up-btn");
-        const container = document.querySelector(".container");
+        localStorage.setItem('mhil',null)
+        function login(){
+            var userid = document.getElementById('uid').value
+            var userpass = document.getElementById('upass').value
+            if(userid!="" && userpass!=""){
+                 var obj = { uid: userid, upass: userpass }
 
-        sign_up_btn.addEventListener("click", () => {
-        container.classList.add("Faculty-sign-in-mode");
-        });
-
-        sign_in_btn.addEventListener("click", () => {
-        container.classList.remove("Faculty-sign-in-mode");
-        });
+               $.ajax({
+                    url:'/check',
+                    data: obj,
+                    type: 'POST',
+                    success: function(res){
+                        if(res == "done"){
+                            localStorage.setItem('mhil','1')
+                            location.href="/tutor"
+                        }
+                        else{
+                            alert('User id/password invalid')
+                        }
+                    },
+                    error: function(err){
+                        alert('Login Failed. Please check your internet connection.')
+                    }
+                }) 
+            }
+            else{
+                alert('Please enter userid and password')
+            }
+            
+        }
     </script>
 
     <!-- Script End -->
-
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
   </body>
 </html>
